@@ -6,7 +6,7 @@ function Layout({ children }) {
   return (
     <>
       <Navbar />
-      <main>{children}</main>
+      <main className="flex flex-col min-h-full">{children}</main>
       <Footer />
     </>
   )

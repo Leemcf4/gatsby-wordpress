@@ -1,14 +1,15 @@
 import React, { useEffect } from "react"
 import { motion, useAnimation } from "framer-motion"
-import Footer from "../components/Footer"
+
 import Layout from "../components/Layout"
-import Navbar from "../components/Navbar"
+
 import { useInView } from "react-intersection-observer"
 
 export default function Home() {
   const controls = useAnimation()
-  const [ref, inView] = useInView({ threshold: 1 })
+  const [ref, inView] = useInView({ threshold: 0.8 })
   const [textRef, textInView] = useInView({ threshold: 1 })
+  const [infoRef, infoInView] = useInView({ threshold: 1 })
 
   useEffect(() => {
     if (inView) {
@@ -18,11 +19,22 @@ export default function Home() {
     if (textInView) {
       controls.start("textVisible")
     }
-  }, [controls, inView, textInView])
+    if (infoInView) {
+      controls.start("infoVisible")
+    }
+  }, [controls, inView, textInView, infoInView])
 
-  const item = {
-    hidden: { opacity: 0, y: -200 },
-    textVisible: { opacity: 1, y: 0 },
+  const rightItem = {
+    hidden: { opacity: 0, x: 500 },
+    textVisible: { opacity: 1, x: 0 },
+  }
+  const leftItem = {
+    hidden: { opacity: 0, x: -500 },
+    textVisible: { opacity: 1, x: 0 },
+  }
+  const infoItem = {
+    hidden: { opacity: 0 },
+    infoVisible: { opacity: 1 },
   }
   return (
     <Layout>
@@ -46,7 +58,7 @@ export default function Home() {
               <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
+                transition={{ delay: 1.5 }}
                 className=""
               >
                 Lee.
@@ -59,36 +71,49 @@ export default function Home() {
         ref={ref}
         animate={controls}
         initial="hidden"
-        transition={{ staggerChildren: 0.5 }}
         variants={{
           visible: { opacity: 1 },
           hidden: { opacity: 0 },
         }}
         className="my-3 bg-gray-100 h-96"
       >
-        <motion.div className="flex flex-col items-center justify-around w-full h-full text-5xl font-medium md:flex-row">
-          <motion.div>legend</motion.div>
-          <motion.div>icon</motion.div>
-          <motion.div>balding</motion.div>
+        <motion.div
+          ref={infoRef}
+          animate={controls}
+          initial="hidden"
+          transition={{ staggerChildren: 0.5, type: "spring" }}
+          variants={{
+            infoVisible: { opacity: 1 },
+            hidden: { opacity: 0 },
+          }}
+          className="flex flex-col items-center justify-around w-full h-full text-5xl font-medium md:flex-row font-avenir"
+        >
+          <motion.div variants={infoItem}>legend</motion.div>
+          <motion.div variants={infoItem}>icon</motion.div>
+          <motion.div transition={{ delay: 1.5 }} variants={infoItem}>
+            bald
+          </motion.div>
         </motion.div>
       </motion.section>
       <section className="py-8">
-        <div className="flex flex-col items-center justify-center text-center">
+        <div className="flex flex-col items-center content-center justify-center text-center font-avenir">
           <motion.p
             ref={textRef}
             animate={controls}
             initial="hidden"
             transition={{ staggerChildren: 0.5, type: "spring" }}
-            variants={{
-              textVisible: { opacity: 1 },
-              hidden: { opacity: 0 },
-            }}
-            className="text-6xl font-semibold leading-relaxed text-center md:text-10xl md:font-normal"
+            // variants={{
+            //   textVisible: { opacity: 1 },
+            //   hidden: { opacity: 0 },
+            // }}
+            className="flex flex-col items-center content-center justify-center text-6xl font-semibold leading-relaxed md:text-10xl md:font-normal"
           >
-            <motion.span variants={item}>"Creative</motion.span>
-            <motion.span variants={item}> Genius"</motion.span>
+            <motion.div variants={rightItem}>"Creative</motion.div>
+            <motion.div variants={leftItem} className="ml-8 md:ml-12">
+              <span> </span> Genius"
+            </motion.div>
           </motion.p>
-          <p className="font-bold">- Lee's granny</p>
+          <motion.p className="font-bold ">- Lee's granny</motion.p>
         </div>
       </section>
     </Layout>
