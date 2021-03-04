@@ -25,7 +25,7 @@ function BlogPost({ id, title, uri, excerpt, image }) {
             <div className="p-6">
               <h2 className="mb-3 text-2xl font-semibold font-avenir">
                 <Link
-                  to={`/blog/${uri}`}
+                  to={`/blog${uri}`}
                   dangerouslySetInnerHTML={{ __html: `${title}` }}
                 />
               </h2>

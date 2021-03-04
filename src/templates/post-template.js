@@ -15,33 +15,20 @@ export const query = graphql`
             sourceUrl(size: POST_THUMBNAIL)
           }
         }
-        comments {
-          nodes {
-            id
-            dateGmt
-            content(format: RENDERED)
-            databaseId
-            replies {
-              nodes {
-                databaseId
-                dateGmt
-                content(format: RENDERED)
-                author {
-                  node {
-                    databaseId
-                    name
-                  }
-                }
-              }
-            }
-            author {
-              node {
-                databaseId
-                name
-              }
-            }
-          }
-        }
+        # comments {
+        #   nodes {
+        #     id
+        #     dateGmt
+        #     content(format: RENDERED)
+        #     databaseId
+        #     author {
+        #       node {
+        #         databaseId
+        #         name
+        #       }
+        #     }
+        #   }
+        # }
       }
     }
   }
@@ -59,12 +46,12 @@ const PostTemplate = ({ data }) => {
         className="flex items-center content-center justify-center w-full mx-auto md:w-102"
       >
         <div className="flex flex-col mx-1 rounded md:mx-0">
-          <a
+          {/* <button
             className="p-3 cursor-pointer font-avenir"
             onClick={() => window.history.back()}
           >
             back
-          </a>
+          </button> */}
           <img
             src={featuredImage?.node.sourceUrl}
             alt=""
@@ -88,20 +75,18 @@ const PostTemplate = ({ data }) => {
               </h2>
             </div>
 
-            {comments.nodes.map(comment => (
+            {comments?.nodes.map(comment => (
               <>
-                <div key={comment.id} className="pt-3 border-gray-200 rounded">
+                <div key={comment?.id} className="pt-3 border-gray-200 rounded">
                   <div className="flex justify-between">
-                    <p className="text-sm text-gray-400">
-                      {comment.author?.node}
-                    </p>
-                    <p className="text-sm text-gray-400">{comment.dateGmt}</p>
+                    <p className="text-sm text-gray-400">Lee</p>
+                    <p className="text-sm text-gray-400">{comment?.dateGmt}</p>
                   </div>
                   <div>
                     <p
                       className="pt-2 text-sm font-avenir-book"
                       dangerouslySetInnerHTML={{
-                        __html: `${comment.content} `,
+                        __html: `${comment?.content} `,
                       }}
                     />
                   </div>
