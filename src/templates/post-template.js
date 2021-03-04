@@ -15,20 +15,20 @@ export const query = graphql`
             sourceUrl(size: POST_THUMBNAIL)
           }
         }
-        # comments {
-        #   nodes {
-        #     id
-        #     dateGmt
-        #     content(format: RENDERED)
-        #     databaseId
-        #     author {
-        #       node {
-        #         databaseId
-        #         name
-        #       }
-        #     }
-        #   }
-        # }
+        comments {
+          nodes {
+            id
+            dateGmt
+            content(format: RENDERED)
+            databaseId
+            # author {
+            #   node {
+            #     databaseId
+            #     name
+            #   }
+            # }
+          }
+        }
       }
     }
   }
